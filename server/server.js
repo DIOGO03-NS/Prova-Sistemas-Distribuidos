@@ -31,7 +31,7 @@ mongoose.connect(process.env.DATABASE || 'mongodb://127.0.0.1:27017/Prova', {
   mongoose.connection.on('disconnected', () => {
     console.log('Desconectado do MongoDB!');
   });
-  
+
 //DATABASE=mongodb://127.0.0.1:27017/SD7
 
 const server = express();
@@ -42,6 +42,6 @@ server.use(fileupload());
 server.use('/', apiRouters);
 
 
-const servico = server.listen(process.env.PORT, () => {
+const servico = server.listen(3000, () => {
     console.log("Servidor rodando na porta " + servico.address().port);
 });

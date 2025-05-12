@@ -163,10 +163,48 @@ const getVoo = async (req, res) => {
   }
 };
 
+const deleteVoo = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // 1. Verifica se o voo existe
+      const voo = await Voo.findById(id);
+      if (!voo) {
+        return res.status(404).json({ message: 'Voo não encontrado' });
+      }
+  
+      // 2. Verifica se há passageiros vinculados
+      const passageirosVinculados = await Passageiro.countDocuments({ vooId: id });
+      if (passageirosVinculados > 0) {
+        return res.status(400).json({ 
+          message: 'Não é possível deletar voo com passageiros vinculados' 
+        });
+      }
+  
+      // 3. Se o voo está ativo, libera o portão
+      if (voo.status !== 'concluido') {
+        await Portao.findByIdAndUpdate(voo.portaoId, { disponivel: true });
+      }
+  
+      // 4. Remove o voo
+      await Voo.findByIdAndDelete(id);
+  
+      res.json({ message: 'Voo deletado com sucesso!' });
+  
+    } catch (error) {
+      console.error('Erro ao deletar voo:', error);
+      res.status(500).json({ 
+        message: 'Erro ao deletar voo',
+        error: error.message 
+      });
+    }
+  };
+
 module.exports = {
   createVoo,
   updateStatus,
   updateCheckin,
   getAllVoos,
-  getVoo
+  getVoo,
+  deleteVoo
 };

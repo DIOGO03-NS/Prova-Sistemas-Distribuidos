@@ -1,6 +1,6 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require('mongoose');
 
-const modelSchema = new mongoose.modelSchema({
+const passageiroSchema = new mongoose.Schema({
     nome: {
         type: String, 
         required: true
@@ -22,11 +22,10 @@ const modelSchema = new mongoose.modelSchema({
     }
 });
 
-
 const modelName = 'Passageiro';
 
 if(mongoose.connection && mongoose.connection.models[modelName]){
     module.exports = mongoose.connection.models[modelName];
 }else{
-    module.exports = mongoose.model(modelName, modelSchema);
+    module.exports = mongoose.model(modelName, passageiroSchema);
 }
