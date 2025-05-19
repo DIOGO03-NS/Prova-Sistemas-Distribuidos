@@ -50,10 +50,10 @@ const updateStatus = async (req, res) => {
     const { id } = req.params;
     const { novoStatus } = req.body;
 
-    // Validações básicas
-    if (!['programado', 'embarque', 'concluido'].includes(novoStatus)) {
-      return res.status(400).json({ message: 'Status inválido' });
-    }
+    // // Validações básicas
+    // if (!['programado', 'embarque', 'concluido'].includes(novoStatus)) {
+    //   return res.status(400).json({ message: 'Status inválido' });
+    // }
 
     const voo = await Voo.findById(id);
     if (!voo) return res.status(404).json({ message: 'Voo não encontrado' });

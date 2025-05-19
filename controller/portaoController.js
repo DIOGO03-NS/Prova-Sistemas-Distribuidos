@@ -84,13 +84,17 @@ const getPortao = async (req, res) => {
 };
 
 // 4. ATUALIZAR PORTÃO
+
+// 4. ATUALIZAR PORTÃO
 const updatePortao = async (req, res) => {
   try {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
     const { id } = req.params;
-    const { codigo, terminal, disponivel } = matchedData(req);
+    const { codigo, terminal, disponivel } = matchedData(req, { locations: ['body'] });
 
     // Verifica se o portão existe
     const portao = await Portao.findById(id);
@@ -98,23 +102,29 @@ const updatePortao = async (req, res) => {
       return res.status(404).json({ message: 'Portão não encontrado' });
     }
 
-    // Verifica se está tentando liberar um portão em uso
-    if (disponivel === true && !portao.disponivel) {
-      const vooAtivo = await Voo.findOne({ 
-        portaoId: id, 
-        status: { $in: ['programado', 'embarque'] } 
+    // Verifica se está tentando liberar um portão que está atualmente em uso
+    if (disponivel === true && portao.disponivel === false) {
+      const vooAtivo = await Voo.findOne({
+        portaoId: id,
+        status: { $in: ['programado', 'embarque'] }
       });
-      
+
       if (vooAtivo) {
-        return res.status(400).json({ 
-          message: 'Não é possível liberar o portão enquanto há um voo ativo vinculado' 
+        return res.status(400).json({
+          message: 'Não é possível liberar o portão enquanto há um voo ativo vinculado'
         });
       }
     }
 
+    // Monta somente os campos atualizados
+    const updates = {};
+    if (codigo !== undefined) updates.codigo = codigo;
+    if (terminal !== undefined) updates.terminal = terminal;
+    if (disponivel !== undefined) updates.disponivel = disponivel;
+
     const portaoAtualizado = await Portao.findByIdAndUpdate(
       id,
-      { codigo, terminal, disponivel },
+      updates,
       { new: true, runValidators: true }
     );
 
@@ -124,13 +134,58 @@ const updatePortao = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Erro ao atualizar portão:', error);
-    res.status(500).json({ 
+    console.error(`Erro ao atualizar portão com id ${req.params.id}:`, error);
+    res.status(500).json({
       message: 'Erro ao atualizar portão',
-      error: error.message 
+      error: error.message
     });
   }
 };
+
+
+// const updatePortao = async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+//     const { id } = req.params;
+//     const { codigo, terminal, disponivel } = matchedData(req);
+
+//     // Verifica se o portão existe
+//     const portao = await Portao.findById(id);
+//     if (!portao) {
+//       return res.status(404).json({ message: 'Portão não encontrado' });
+//     }
+
+//     // Verifica se está tentando liberar um portão em uso
+//     if (disponivel === true && !portao.disponivel) {
+//       const vooAtivo = await Voo.findOne({ 
+//         portaoId: id, 
+//         status: { $in: ['programado', 'embarque'] } 
+//       });
+      
+//       if (vooAtivo) {
+//         return res.status(400).json({ 
+//           message: 'Não é possível liberar o portão enquanto há um voo ativo vinculado' 
+//         });
+//       }
+//     }
+
+//     const portaoAtualizado = await Portao.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+
+//     res.json({
+//       message: 'Portão atualizado com sucesso!',
+//       portao: portaoAtualizado
+//     });
+
+//   } catch (error) {
+//     console.error('Erro ao atualizar portão:', error);
+//     res.status(500).json({ 
+//       message: 'Erro ao atualizar portão',
+//       error: error.message 
+//     });
+//   }
+// };
 
 // 5. DELETAR PORTÃO
 const deletePortao = async (req, res) => {

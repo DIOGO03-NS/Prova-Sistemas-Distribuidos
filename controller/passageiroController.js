@@ -118,10 +118,59 @@ const deleteUser = async (req, res) => {
   }
 };
 
+//realizar checkin
+// https: .../chackin/id:passageiro/
+const realizarCheckIn = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // 1. Encontra o passageiro E POPULA os dados do voo
+    const passageiro = await Passageiro.findById(req.params.id).populate('vooId');
+    
+    if (!passageiro) {
+      return res.status(404).json({ message: 'Passageiro não encontrado' });
+    }
+
+    // 2. Verifica check-in já realizado
+    if (passageiro.statusCheckIn === 'realizado') {
+      return res.status(400).json({ message: 'Check-in já realizado' });
+    }
+    
+    // 3. Verifica status do voo (agora acessando o objeto populado)
+    if (passageiro.vooId.status !== 'embarque') {
+      return res.status(400).json({ 
+        message: 'Check-in só permitido quando o voo está em embarque. Status atual: ' + passageiro.vooId.status
+      });
+    }
+    
+    // 4. Atualiza usando findByIdAndUpdate para evitar race conditions
+    const passageiroAtualizado = await Passageiro.findByIdAndUpdate(
+      req.params.id,
+      { statusCheckIn: 'realizado' },
+      { new: true, runValidators: true }
+    ).populate('vooId');
+
+    res.json({ 
+      message: 'Check-in realizado com sucesso!',
+      passageiro: passageiroAtualizado 
+    });
+
+  } catch (error) {
+    console.error('Erro ao fazer check-in:', error);
+    res.status(500).json({ 
+      message: 'Erro ao fazer check-in',
+      error: error.message 
+    });
+  }
+};
 module.exports = {
   createUser,
   getAllUsers,
   getUser,
   editUser,
-  deleteUser
+  deleteUser,
+  realizarCheckIn
 };

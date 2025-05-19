@@ -4,6 +4,7 @@ const { check } = require('express-validator'); // Adicione esta linha
 const passageiroController = require('./controller/passageiroController');
 const vooController = require('./controller/vooController');
 const portaoController = require('./controller/portaoController');
+const relatoriosController = require('./controller/relatoriosController');
 
 router.get('/ping', (req, res) => {
     res.json({retorno: true});
@@ -20,6 +21,7 @@ router.get('/passageiros', passageiroController.getAllUsers);
 router.get('/passageiros/:id', passageiroController.getUser);
 router.put('/passageiros/:id', passageiroController.editUser);
 router.delete('/passageiros/:id', passageiroController.deleteUser);
+router.patch('/passageiros/:id/checkin', passageiroController.realizarCheckIn);
 
 // Rotas de voo
 router.post('/voos', [ // Prefixo adicionado
@@ -56,5 +58,11 @@ router.put('/portoes/:id', [
     check('disponivel').optional().isBoolean()
 ], portaoController.updatePortao);
 router.delete('/portoes/:id', portaoController.deletePortao);
+
+// routes.js
+router.get('/hoje', relatoriosController.listarVoosHoje);
+router.get('/voos/:idVoo/passageiros', relatoriosController.listarPassageirosPorVoo);
+router.get('/relatorio/diario', relatoriosController.relatorioDiario);
+router.get('/relatorio/portoes', relatoriosController.listarPortoesAtribuidos);
 
 module.exports = router;
