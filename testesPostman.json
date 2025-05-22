@@ -1,0 +1,402 @@
+{
+	"info": {
+		"_postman_id": "d47a92be-315c-42a5-b991-ce8c08982703",
+		"name": "localhost:3000",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37303734",
+		"_collection_link": "https://prova-alexandre.postman.co/workspace/prova-Alexandre-Workspace~765fb9ac-708e-4372-8a2d-801e4aa456a8/collection/37303734-d47a92be-315c-42a5-b991-ce8c08982703?action=share&source=collection_link&creator=37303734"
+	},
+	"item": [
+		{
+			"name": "voo",
+			"item": [
+				{
+					"name": "mostra voos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/voos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"voos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleta voo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/voos/6821fec2ad7132901a741434",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"voos",
+								"6821fec2ad7132901a741434"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adiciona voo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/voos?numeroVoo=154&origem=Franca&destino=Brasil&dataHoraPartida=2023-12-25T14:30:00Z&portaoId=6821fe1fad7132901a741431",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"voos"
+							],
+							"query": [
+								{
+									"key": "numeroVoo",
+									"value": "154"
+								},
+								{
+									"key": "origem",
+									"value": "Franca"
+								},
+								{
+									"key": "destino",
+									"value": "Brasil"
+								},
+								{
+									"key": "dataHoraPartida",
+									"value": "2023-12-25T14:30:00Z"
+								},
+								{
+									"key": "portaoId",
+									"value": "6821fe1fad7132901a741431"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modifica voo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"novoStatus\": \"concluido\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/voos/6821faa371e473d2ce0be278/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"voos",
+								"6821faa371e473d2ce0be278",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "passageiro",
+			"item": [
+				{
+					"name": "/passageiros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passageiros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "passageiros",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Angonio\",\n    \"cpf\": \"93975396830\",\n    \"vooId\": \"682b32957f7d77a53f5bd893\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/passageiros?nome=Carlos&cpf=93900396830&vooId=6821fec2ad7132901a741434",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passageiros"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "Carlos"
+								},
+								{
+									"key": "cpf",
+									"value": "93900396830"
+								},
+								{
+									"key": "vooId",
+									"value": "6821fec2ad7132901a741434"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/passageiros?id=6821fae471e473d2ce0be27b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"passageiros"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6821fae471e473d2ce0be27b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/voos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"voos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "portoes",
+			"item": [
+				{
+					"name": "/portoes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/portoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"portoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "portoes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/portoes?codigo=T33&terminal=33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"portoes"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "T33"
+								},
+								{
+									"key": "terminal",
+									"value": "33"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "portoes",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6821ffecad7132901a74143b",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/portoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"portoes"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "T33",
+									"disabled": true
+								},
+								{
+									"key": "terminal",
+									"value": "33",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "porrtoes",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "relatorios",
+			"item": [
+				{
+					"name": "voos por dia",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "pessoas por voo",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "diario",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
