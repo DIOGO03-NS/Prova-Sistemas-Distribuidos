@@ -36,9 +36,9 @@ router.put('/voos/:id/status', [
     check('novoStatus').isIn(['programado', 'embarque', 'concluido'])
 ], vooController.updateStatus);
 
-router.put('/voos/passageiros/:passageiroId/checkin', [
-    check('vooId').isMongoId()
-], vooController.updateCheckin);
+// router.put('/voos/passageiros/:passageiroId/checkin', [
+//     check('vooId').isMongoId()
+// ], vooController.updateCheckin);
 
 router.get('/voos', vooController.getAllVoos);
 router.get('/voos/:id', vooController.getVoo);
